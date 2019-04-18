@@ -6,12 +6,12 @@ using System.Text;
 
 namespace SimpleCMS.CMS.Dtos
 {
-    [AutoMapFrom(typeof(CMSContent))]
-    public class CMSContentDetailOutput : FullAuditedEntityDto<Guid>
+    public class CMSContentDetailOutput
     {
         public int id { get; set; }
-        public string PageName { get; set; }
 
-        public string PageContent { get; set; }
+        public string pageName { get; set; }
+
+        public string pageContent { get; set; }
     }
 }

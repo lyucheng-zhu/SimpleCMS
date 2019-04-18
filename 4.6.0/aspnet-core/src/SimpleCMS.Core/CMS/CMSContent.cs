@@ -12,15 +12,13 @@ using System.Text;
 namespace SimpleCMS.CMS
 {
     [Table("AppCMSContents")]
-    public class CMSContent : FullAuditedEntity<Guid>, IMustHaveTenant
+    public class CMSContent : FullAuditedEntity<Guid>
     {
         public const int MaxPageNameLength = 128;
         public const int MaxPageContentLength = 2048;
 
-        public virtual int TenantId { get; set; }
-
         [Required]
-        public virtual int id { get; protected set; }
+        public virtual int PageId { get; protected set; }
 
         [Required]
         [StringLength(MaxPageNameLength)]
@@ -39,13 +37,12 @@ namespace SimpleCMS.CMS
 
         }
 
-        public static CMSContent Create(int tenantId, int _id, string pageName, string pageContent = null)
+        public static CMSContent Create(int pageId, string pageName, string pageContent = null)
         {
             var @CMSContent = new CMSContent
             {
                 Id = Guid.NewGuid(),
-                TenantId = tenantId,
-                id = _id,
+                PageId = pageId,
                 PageName = pageName,
                 PageContent = pageContent
             };

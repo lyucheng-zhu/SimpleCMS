@@ -11,9 +11,9 @@ namespace SimpleCMS.CMS.Dtos
 
         [Required]
         [StringLength(CMS.CMSContent.MaxPageNameLength)]
-        public string PageName { get; set; }
+        public string pageName { get; set; }
 
         [StringLength(CMS.CMSContent.MaxPageContentLength)]
-        public string PageContent { get; set; }
+        public string pageContent { get; set; }
     }
 }

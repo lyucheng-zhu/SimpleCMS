@@ -29,24 +29,10 @@ namespace SimpleCMS.CMS
             _CMSContentRepository = CMSContentRepository;
         }
 
-        /*public async Task<ListResultDto<EventListDto>> GetListAsync(GetEventListInput input)
-        {
-            var events = await _eventRepository
-                .GetAll()
-                .Include(e => e.Registrations)
-                .WhereIf(!input.IncludeCanceledEvents, e => !e.IsCancelled)
-                .OrderByDescending(e => e.CreationTime)
-                .Take(64)
-                .ToListAsync();
-
-            return new ListResultDto<EventListDto>(events.MapTo<List<EventListDto>>());
-        }*/
-
-        public async Task<CMSContentDetailOutput> GetAll(EntityDto<Guid> input)
+        public async Task<CMSContentDetailOutput> GetAll()
         {
             var @CMSContent = await _CMSContentRepository
                 .GetAll()
-                .Where(e => e.Id == input.Id)
                 .FirstOrDefaultAsync();
 
             if (@CMSContent == null)
@@ -54,20 +40,27 @@ namespace SimpleCMS.CMS
                 throw new UserFriendlyException("Could not found the event, maybe it's deleted.");
             }
 
-            return @CMSContent.MapTo<CMSContentDetailOutput>();
+            var @CMSContentDetailOutput = new CMSContentDetailOutput()
+            {
+                id = @CMSContent.PageId,
+                pageName = @CMSContent.PageName,
+                pageContent = @CMSContent.PageContent
+            };
+
+            return @CMSContentDetailOutput;
         }
 
         public async Task<CMSContentDetailOutput> InsertOrUpdateCMSContent(CreateCMSContentInput input)
         {
-            var @CMSContent = CMS.CMSContent.Create(AbpSession.GetTenantId(), input.id, input.PageName, input.PageContent);
-            return (await _CMSContentManager.CreateAsync(@CMSContent)).MapTo<CMSContentDetailOutput>();
+            var @CMSContent = CMS.CMSContent.Create(input.id, input.pageName, input.pageContent);
+            return await _CMSContentManager.CreateAsync(@CMSContent);
         }
 
-        public async Task<CMSContentDetailOutput> GetCMSContent(int pageid)
+        public async Task<CMSContentDetailOutput> GetCMSContent(int pageId)
         {
             var @CMSContent = await _CMSContentRepository
                 .GetAll()
-                .Where(e => e.id == pageid)
+                .Where(e => e.PageId == pageId)
                 .FirstOrDefaultAsync();
 
             if (@CMSContent == null)

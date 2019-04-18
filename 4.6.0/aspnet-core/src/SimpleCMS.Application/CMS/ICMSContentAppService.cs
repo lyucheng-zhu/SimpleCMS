@@ -7,8 +7,8 @@ namespace SimpleCMS.CMS
 {
     public interface ICMSContentAppService
     {
-        Task<CMSContentDetailOutput> GetAll(EntityDto<Guid> input);
+        Task<CMSContentDetailOutput> GetAll();
 
-        Task<CMSContentDetailOutput> InsertOrUpdateCMSContent(CreateCMSContentInput input);
-}
+        Task<CMSContent> InsertOrUpdateCMSContent(CreateCMSContentInput input);
+    }
 }
