@@ -38,6 +38,12 @@ import { EditUserDialogComponent } from '@app/users/edit-user/edit-user-dialog.c
 import { ChangePasswordComponent } from './users/change-password/change-password.component';
 import { ResetPasswordDialogComponent } from './users/reset-password/reset-password.component';
 
+
+// cms
+import { CMSServiceProxy } from '../shared/service-proxies/service-proxies';
+import { EventDetailComponent } from './cms/cms-content-detail.component';
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -62,7 +68,10 @@ import { ResetPasswordDialogComponent } from './users/reset-password/reset-passw
     CreateUserDialogComponent,
     EditUserDialogComponent,
     ChangePasswordComponent,
-    ResetPasswordDialogComponent
+    ResetPasswordDialogComponent,
+
+    // cms
+    EventDetailComponent
   ],
   imports: [
     CommonModule,
@@ -76,8 +85,11 @@ import { ResetPasswordDialogComponent } from './users/reset-password/reset-passw
     ServiceProxyModule,
     SharedModule,
     NgxPaginationModule
-  ],
-  providers: [],
+    ],
+    providers: [
+        // !!!!!!!add service provider!!!!
+        CMSServiceProxy
+    ],
   entryComponents: [
     // tenants
     CreateTenantDialogComponent,

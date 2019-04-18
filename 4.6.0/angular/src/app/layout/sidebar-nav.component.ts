@@ -2,12 +2,20 @@ import { Component, Injector, ViewEncapsulation } from '@angular/core';
 import { AppComponentBase } from '@shared/app-component-base';
 import { MenuItem } from '@shared/layout/menu-item';
 
+//
+import { CMSServiceProxy, EventListDto, ListResultDtoOfEventListDto } from '@shared/service-proxies/service-proxies';
+
 @Component({
     templateUrl: './sidebar-nav.component.html',
     selector: 'sidebar-nav',
     encapsulation: ViewEncapsulation.None
 })
 export class SideBarNavComponent extends AppComponentBase {
+
+    // Inserted CMS pages
+    CMS_URL = 'http://localhost:4000/app/cms/';
+    events: EventListDto[] = [];
+
 
     menuItems: MenuItem[] = [
         new MenuItem(this.l('HomePage'), '', 'home', '/app/home'),
@@ -36,9 +44,11 @@ export class SideBarNavComponent extends AppComponentBase {
     ];
 
     constructor(
-        injector: Injector
+        injector: Injector,
+        private _CMSService: CMSServiceProxy
     ) {
         super(injector);
+        this.loadCMSContents();
     }
 
     showMenuItem(menuItem): boolean {
@@ -47,5 +57,18 @@ export class SideBarNavComponent extends AppComponentBase {
         }
 
         return true;
+    }
+
+    loadCMSContents() {
+        console.log('loading CMS contents now...')
+        this._CMSService.getListAsync()
+            .subscribe((result: ListResultDtoOfEventListDto) => {
+                this.events = result.items;
+                console.log(this.events);
+                for (let event of this.events) {
+                    var CMSPageButton = new MenuItem(event.pageName, '', '', 'http://localhost:4200/app/cms/' + event.id);
+                    this.menuItems.push(CMSPageButton);
+                };
+            });
     }
 }

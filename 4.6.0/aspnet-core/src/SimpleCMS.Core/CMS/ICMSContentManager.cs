@@ -8,9 +8,11 @@ namespace SimpleCMS.CMS
 {
     public interface ICMSContentManager : IDomainService
     {
-        Task<CMSContent> GetAsync(Guid id);
+        Task<CMSContent> GetOneAsync(int pageId);
 
-        Task<CMSContent> CreateAsync(CMSContent @event);
+        Task<List<CMSContent>> GetAllAsync();
+
+        Task<CMSContent> InsertOrUpdateAsync(int pageId, string pageName, string pageContent);
 
     }
 }
