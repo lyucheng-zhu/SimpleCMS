@@ -6,6 +6,10 @@ import * as ApiServiceProxies from './service-proxies';
 
 @NgModule({
     providers: [
+        // Add our CMS service
+        ApiServiceProxies.CMSServiceProxy,
+
+
         ApiServiceProxies.RoleServiceProxy,
         ApiServiceProxies.SessionServiceProxy,
         ApiServiceProxies.TenantServiceProxy,

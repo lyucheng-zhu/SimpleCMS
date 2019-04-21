@@ -2,7 +2,9 @@ import { Component, OnInit, Injector } from '@angular/core';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { AppComponentBase } from '@shared/app-component-base';
-import { EventDetailOutput, CMSServiceProxy} from '@shared/service-proxies/service-proxies';
+
+// Service needed to get the result
+import { CMSContentDetailOutput, CMSServiceProxy} from '@shared/service-proxies/service-proxies';
 
 import * as _ from 'lodash';
 
@@ -11,9 +13,10 @@ import * as _ from 'lodash';
     animations: [appModuleAnimation()]
 })
 
-export class EventDetailComponent extends AppComponentBase implements OnInit {
+export class CMSContentDetailComponent extends AppComponentBase implements OnInit {
 
-    event: EventDetailOutput = new EventDetailOutput();
+    //
+    CMSContent: CMSContentDetailOutput = new CMSContentDetailOutput();
     pageId: number;
 
     constructor(
@@ -24,6 +27,7 @@ export class EventDetailComponent extends AppComponentBase implements OnInit {
         super(injector);
     }
 
+    //
     ngOnInit(): void {
         this._activatedRoute.params.subscribe((params: Params) => {
             this.pageId = params['pageId'];
@@ -31,11 +35,12 @@ export class EventDetailComponent extends AppComponentBase implements OnInit {
         this.loadCMSContent();
     }
 
+    //
     loadCMSContent() {
-        console.log('loading CMS content now...')
+        console.log('Loading CMS content now...');
         this._CMSService.getDetailAsync(this.pageId)
-            .subscribe((result: EventDetailOutput) => {
-                this.event = result;
+            .subscribe((result: CMSContentDetailOutput) => {
+                this.CMSContent = result;
             });
     }
 }

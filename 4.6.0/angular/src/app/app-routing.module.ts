@@ -9,7 +9,7 @@ import { TenantsComponent } from './tenants/tenants.component';
 import { RolesComponent } from 'app/roles/roles.component';
 import { ChangePasswordComponent } from './users/change-password/change-password.component';
 
-import { EventDetailComponent } from './cms/cms-content-detail.component';
+import { CMSContentDetailComponent } from './cms/cms-content-detail.component';
 
 @NgModule({
     imports: [
@@ -25,8 +25,8 @@ import { EventDetailComponent } from './cms/cms-content-detail.component';
                     { path: 'about', component: AboutComponent },
                     { path: 'update-password', component: ChangePasswordComponent },
 
-                    //
-                    { path: 'cms/:pageId', component: EventDetailComponent },
+                    // Used to show the detail of a CMS content
+                    { path: 'cms/:pageId', component: CMSContentDetailComponent },
                 ]
             }
         ])

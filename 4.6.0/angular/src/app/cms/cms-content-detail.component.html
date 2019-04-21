@@ -3,16 +3,12 @@
         <div class="card main-content">
             <div class="header">
                 <h2>
-                    {{event.pageName}} 
+                    {{CMSContent.pageName}}
                 </h2>
             </div>
             <div class="body table-responsive">
-                <div>
-                    {{event.pageContent}}
+                <div [innerHTML]="CMSContent.pageContent">
                 </div>
-
-                <hr />
-
             </div>
         </div>
     </div>

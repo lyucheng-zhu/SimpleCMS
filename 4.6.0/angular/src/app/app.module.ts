@@ -41,7 +41,7 @@ import { ResetPasswordDialogComponent } from './users/reset-password/reset-passw
 
 // cms
 import { CMSServiceProxy } from '../shared/service-proxies/service-proxies';
-import { EventDetailComponent } from './cms/cms-content-detail.component';
+import { CMSContentDetailComponent } from './cms/cms-content-detail.component';
 
 
 @NgModule({
@@ -71,7 +71,7 @@ import { EventDetailComponent } from './cms/cms-content-detail.component';
     ResetPasswordDialogComponent,
 
     // cms
-    EventDetailComponent
+    CMSContentDetailComponent
   ],
   imports: [
     CommonModule,
@@ -87,8 +87,6 @@ import { EventDetailComponent } from './cms/cms-content-detail.component';
     NgxPaginationModule
     ],
     providers: [
-        // !!!!!!!add service provider!!!!
-        CMSServiceProxy
     ],
   entryComponents: [
     // tenants

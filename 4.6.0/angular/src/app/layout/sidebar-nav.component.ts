@@ -3,7 +3,7 @@ import { AppComponentBase } from '@shared/app-component-base';
 import { MenuItem } from '@shared/layout/menu-item';
 
 //
-import { CMSServiceProxy, EventListDto, ListResultDtoOfEventListDto } from '@shared/service-proxies/service-proxies';
+import { CMSServiceProxy, CMSContentListDto, ListResultDtoOfCMSContentListDto } from '@shared/service-proxies/service-proxies';
 
 @Component({
     templateUrl: './sidebar-nav.component.html',
@@ -12,9 +12,20 @@ import { CMSServiceProxy, EventListDto, ListResultDtoOfEventListDto } from '@sha
 })
 export class SideBarNavComponent extends AppComponentBase {
 
-    // Inserted CMS pages
-    CMS_URL = 'http://localhost:4000/app/cms/';
-    events: EventListDto[] = [];
+    // Load CMS contents
+    CMSContents: CMSContentListDto[] = [];
+    loadCMSContents() {
+        console.log('Loading CMS contents now...');
+        this._CMSService.getListAsync()
+            .subscribe((result: ListResultDtoOfCMSContentListDto) => {
+                this.CMSContents = result.items;
+                //console.log(this.CMSContents);
+                for (let CMSContent of this.CMSContents) {
+                    var CMSPageButton = new MenuItem(CMSContent.pageName, '', '', 'http://localhost:4200/app/cms/' + CMSContent.id);
+                    this.menuItems.push(CMSPageButton);
+                };
+            });
+    }
 
 
     menuItems: MenuItem[] = [
@@ -59,16 +70,4 @@ export class SideBarNavComponent extends AppComponentBase {
         return true;
     }
 
-    loadCMSContents() {
-        console.log('loading CMS contents now...')
-        this._CMSService.getListAsync()
-            .subscribe((result: ListResultDtoOfEventListDto) => {
-                this.events = result.items;
-                console.log(this.events);
-                for (let event of this.events) {
-                    var CMSPageButton = new MenuItem(event.pageName, '', '', 'http://localhost:4200/app/cms/' + event.id);
-                    this.menuItems.push(CMSPageButton);
-                };
-            });
-    }
 }

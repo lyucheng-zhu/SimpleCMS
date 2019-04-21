@@ -16,10 +16,10 @@ import * as moment from 'moment';
 export const API_BASE_URL = new InjectionToken<string>('API_BASE_URL');
 
 // Needed helper class
-export class ListResultDtoOfEventListDto implements IListResultDtoOfEventListDto {
-    items: EventListDto[];
+export class ListResultDtoOfCMSContentListDto implements IListResultDtoOfCMSContentListDto {
+    items: CMSContentListDto[];
 
-    constructor(data?: IListResultDtoOfEventListDto) {
+    constructor(data?: IListResultDtoOfCMSContentListDto) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -33,14 +33,14 @@ export class ListResultDtoOfEventListDto implements IListResultDtoOfEventListDto
             if (data["items"] && data["items"].constructor === Array) {
                 this.items = [] as any;
                 for (let item of data["items"])
-                    this.items.push(EventListDto.fromJS(item));
+                    this.items.push(CMSContentListDto.fromJS(item));
             }
         }
     }
 
-    static fromJS(data: any): ListResultDtoOfEventListDto {
+    static fromJS(data: any): ListResultDtoOfCMSContentListDto {
         data = typeof data === 'object' ? data : {};
-        let result = new ListResultDtoOfEventListDto();
+        let result = new ListResultDtoOfCMSContentListDto();
         result.init(data);
         return result;
     }
@@ -55,20 +55,20 @@ export class ListResultDtoOfEventListDto implements IListResultDtoOfEventListDto
         return data;
     }
 
-    clone(): ListResultDtoOfEventListDto {
+    clone(): ListResultDtoOfCMSContentListDto {
         const json = this.toJSON();
-        let result = new ListResultDtoOfEventListDto();
+        let result = new ListResultDtoOfCMSContentListDto();
         result.init(json);
         return result;
     }
 }
 
-export interface IListResultDtoOfEventListDto {
-    items: EventListDto[];
+export interface IListResultDtoOfCMSContentListDto {
+    items: CMSContentListDto[];
 }
 
 
-export class EventListDto implements IEventListDto {
+export class CMSContentListDto implements ICMSContentListDto {
     pageName: string;
     pageContent: string;
     isDeleted: boolean;
@@ -80,7 +80,7 @@ export class EventListDto implements IEventListDto {
     creatorUserId: number;
     id: string;
 
-    constructor(data?: IEventListDto) {
+    constructor(data?: ICMSContentListDto) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -104,9 +104,9 @@ export class EventListDto implements IEventListDto {
         }
     }
 
-    static fromJS(data: any): EventListDto {
+    static fromJS(data: any): CMSContentListDto {
         data = typeof data === 'object' ? data : {};
-        let result = new EventListDto();
+        let result = new CMSContentListDto();
         result.init(data);
         return result;
     }
@@ -126,15 +126,15 @@ export class EventListDto implements IEventListDto {
         return data;
     }
 
-    clone(): EventListDto {
+    clone(): CMSContentListDto {
         const json = this.toJSON();
-        let result = new EventListDto();
+        let result = new CMSContentListDto();
         result.init(json);
         return result;
     }
 }
 
-export interface IEventListDto {
+export interface ICMSContentListDto {
     pageName: string;
     pageContent: string;
     isDeleted: boolean;
@@ -148,7 +148,7 @@ export interface IEventListDto {
 }
 
 
-export class EventDetailOutput implements IEventDetailOutput {
+export class CMSContentDetailOutput implements ICMSContentDetailOutput {
     pageName: string;
     pageContent: string;
     isDeleted: boolean;
@@ -160,7 +160,7 @@ export class EventDetailOutput implements IEventDetailOutput {
     creatorUserId: number;
     id: string;
 
-    constructor(data?: IEventDetailOutput) {
+    constructor(data?: ICMSContentDetailOutput) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -184,9 +184,9 @@ export class EventDetailOutput implements IEventDetailOutput {
         }
     }
 
-    static fromJS(data: any): EventDetailOutput {
+    static fromJS(data: any): CMSContentDetailOutput {
         data = typeof data === 'object' ? data : {};
-        let result = new EventDetailOutput();
+        let result = new CMSContentDetailOutput();
         result.init(data);
         return result;
     }
@@ -206,15 +206,15 @@ export class EventDetailOutput implements IEventDetailOutput {
         return data;
     }
 
-    clone(): EventDetailOutput {
+    clone(): CMSContentDetailOutput {
         const json = this.toJSON();
-        let result = new EventDetailOutput();
+        let result = new CMSContentDetailOutput();
         result.init(json);
         return result;
     }
 }
 
-export interface IEventDetailOutput {
+export interface ICMSContentDetailOutput {
     pageName: string;
     pageContent: string;
     isDeleted: boolean;
@@ -243,7 +243,7 @@ export class CMSServiceProxy {
      * @param 
      * @return Success
      */
-    getListAsync(): Observable<ListResultDtoOfEventListDto> {
+    getListAsync(): Observable<ListResultDtoOfCMSContentListDto> {
         let url_ = this.baseUrl + "/api/services/app/CMSService/GetAll";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -262,14 +262,14 @@ export class CMSServiceProxy {
                 try {
                     return this.processGetListAsync(<any>response_);
                 } catch (e) {
-                    return <Observable<ListResultDtoOfEventListDto>><any>_observableThrow(e);
+                    return <Observable<ListResultDtoOfCMSContentListDto>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<ListResultDtoOfEventListDto>><any>_observableThrow(response_);
+                return <Observable<ListResultDtoOfCMSContentListDto>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGetListAsync(response: HttpResponseBase): Observable<ListResultDtoOfEventListDto> {
+    protected processGetListAsync(response: HttpResponseBase): Observable<ListResultDtoOfCMSContentListDto> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -280,7 +280,7 @@ export class CMSServiceProxy {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
                 let result200: any = null;
                 let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-                result200 = resultData200 ? ListResultDtoOfEventListDto.fromJS(resultData200) : new ListResultDtoOfEventListDto();
+                result200 = resultData200 ? ListResultDtoOfCMSContentListDto.fromJS(resultData200) : new ListResultDtoOfCMSContentListDto();
                 return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -288,14 +288,14 @@ export class CMSServiceProxy {
                 return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<ListResultDtoOfEventListDto>(<any>null);
+        return _observableOf<ListResultDtoOfCMSContentListDto>(<any>null);
     }
 
     /**
      * @param id (optional) 
      * @return Success
      */
-    getDetailAsync(id: number): Observable<EventDetailOutput> {
+    getDetailAsync(id: number): Observable<CMSContentDetailOutput> {
         let url_ = this.baseUrl + "/api/services/app/CMSService/GetCMSContent?";
         if (id !== undefined)
             url_ += "pageId=" + encodeURIComponent("" + id) + "&";
@@ -316,14 +316,14 @@ export class CMSServiceProxy {
                 try {
                     return this.processGetDetailAsync(<any>response_);
                 } catch (e) {
-                    return <Observable<EventDetailOutput>><any>_observableThrow(e);
+                    return <Observable<CMSContentDetailOutput>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<EventDetailOutput>><any>_observableThrow(response_);
+                return <Observable<CMSContentDetailOutput>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGetDetailAsync(response: HttpResponseBase): Observable<EventDetailOutput> {
+    protected processGetDetailAsync(response: HttpResponseBase): Observable<CMSContentDetailOutput> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -334,7 +334,7 @@ export class CMSServiceProxy {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
                 let result200: any = null;
                 let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-                result200 = resultData200 ? EventDetailOutput.fromJS(resultData200) : new EventDetailOutput();
+                result200 = resultData200 ? CMSContentDetailOutput.fromJS(resultData200) : new CMSContentDetailOutput();
                 return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -342,7 +342,7 @@ export class CMSServiceProxy {
                 return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<EventDetailOutput>(<any>null);
+        return _observableOf<CMSContentDetailOutput>(<any>null);
     }
 }
 
